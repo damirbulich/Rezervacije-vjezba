@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Rezervacije</string>
+    <string name="app_name">Rezervacije restorana</string>
+    <string name="unos_name">Unos nove rezervacije</string>
 </resources>
