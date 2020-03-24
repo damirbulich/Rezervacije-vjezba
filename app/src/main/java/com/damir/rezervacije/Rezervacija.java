@@ -19,7 +19,6 @@ public class Rezervacija {
     }
 
 
-    /*! Dodati provjeru postoji li vec */
     public void setPin() {
         this.pin = (int)(Math.random()*9000+1000);
     }

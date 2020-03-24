@@ -17,8 +17,10 @@ import java.text.DateFormat;
 import java.util.Calendar;
 
 public class UnosActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+
     EditText naziv, br_osoba, na_ime;
     TextView datum, vrijeme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,16 +32,19 @@ public class UnosActivity extends AppCompatActivity implements DatePickerDialog.
         vrijeme = findViewById(R.id.textView15);
     }
 
+    /* metoda koja poziva datepicker kada se klikne na tekst "odaberi datum" (logika preuzeta sa youtube tutorijala) */
     public void setDatumInitial(View view){
         DialogFragment datum = new DatePickerFragment();
         datum.show(getSupportFragmentManager(), "date picker");
     }
 
+    /* metoda koja poziva timepicker kada se klikne na tekst "odaberi vrijeme" (logika preuzeta sa youtube tutorijala) */
     public void setVrijemeInitial(View view){
         DialogFragment vrijeme = new TimePickerFragment();
         vrijeme.show(getSupportFragmentManager(), "time picker");
     }
 
+    /* metoda skuplja sve unesene podatke i vraća na prethodnu aktivnost (Merlin prezentacije / StackOverflow [potvrda da se može vise puta pozvati metoda .putExtra()] ) */
     public void vrati(View view){
         Intent intent = getIntent();
         intent.putExtra("naziv", naziv.getText().toString());
@@ -51,6 +56,7 @@ public class UnosActivity extends AppCompatActivity implements DatePickerDialog.
         finish();
     }
 
+    /* metoda onDateSet postavlja vrijednost textview14 na odabrani datum (logika preuzeta sa youtube tutorijala) */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
@@ -62,6 +68,7 @@ public class UnosActivity extends AppCompatActivity implements DatePickerDialog.
         t.setText(current);
     }
 
+    /* metoda onTimeSet postavlja vrijednost textview15 na odabrano vrijeme (logika preuzeta sa youtube tutorijala) */
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         TextView t2 = findViewById(R.id.textView15);

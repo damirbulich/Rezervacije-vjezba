@@ -42,16 +42,19 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
+    /* metoda koja poziva datepicker kada se klikne na tekst "odaberi datum" (logika preuzeta sa youtube tutorijala) */
     public void setDatum(View view){
         DialogFragment datum = new DatePickerFragment();
         datum.show(getSupportFragmentManager(), "date picker");
     }
+
+    /* metoda koja poziva timepicker kada se klikne na tekst "odaberi vrijeme" (logika preuzeta sa youtube tutorijala) */
     public void setVrijeme(View view){
         DialogFragment vrijeme = new TimePickerFragment();
         vrijeme.show(getSupportFragmentManager(), "time picker");
     }
 
-    /* metoda za konverziju liste u json format i spremanje u datoteku moja_sprema.xml */
+    /* metoda za konverziju liste u json format i spremanje u datoteku moja_sprema.xml (logika preuzeta sa youtube tutorijala) */
     public void saveRezervacije(){
         SharedPreferences sprema = getSharedPreferences("moja_sprema", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sprema.edit();
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         editor.apply();
     }
 
-    /* metoda za dohvat podataka iz datoteke i konverziju podataka iz json formata u listu */
+    /* metoda za dohvat podataka iz datoteke i konverziju podataka iz json formata u listu (logika preuzeta sa youtube tutorijala) */
     public void loadRezervacije(){
         SharedPreferences sprema = getSharedPreferences("moja_sprema", Context.MODE_PRIVATE);
         Gson g = new Gson();
@@ -74,11 +77,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
     }
 
+    /* metoda pozvana klikom na gumb Dodaj otvara novu aktivnost za unos nove rezervacije */
     public void addRezervacija(View view){
         Intent intent = new Intent(this, UnosActivity.class);
         startActivityForResult(intent, 1);
     }
 
+    /* povratkom iz aktivnosti za unos nove rezervacije spremamo novu rezervaciju */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -86,9 +91,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
 
+                /* učitaj sve rezervacije */
                 loadRezervacije();
                 //Rezervacija nova = new Rezervacija(1234,"Orsan", "2.2.2020.", "12:23", "11", "Damir");
 
+                /* kreiraj novu instancu rezervacije sa podatcima iz unosa */
                 Rezervacija nova = new Rezervacija(
                         data.getStringExtra("naziv"),
                         data.getStringExtra("datum"),
@@ -119,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
     }
 
-    /* metoda za provjeru */
+    /* jako neefikasna metoda za provjeru */
     public boolean sadrzi(List<Rezervacija> rezervacijas, Rezervacija nova){
         if(rezervacijas==null) return false;
         for(Rezervacija rezervacija : rezervacijas){
@@ -130,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return false;
     }
 
+    /* metoda onDateSet postavlja vrijednost textview7 na odabrani datum (logika preuzeta sa youtube tutorijala) */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
@@ -141,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         t.setText(current);
     }
 
+    /* metoda onTimeSet postavlja vrijednost textview8 na odabrano vrijeme (logika preuzeta sa youtube tutorijala) */
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         TextView t2 = findViewById(R.id.textView8);
