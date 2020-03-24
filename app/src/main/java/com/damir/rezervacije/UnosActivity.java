@@ -56,6 +56,11 @@ public class UnosActivity extends AppCompatActivity implements DatePickerDialog.
         finish();
     }
 
+
+    public void vratiPrazno(View view){
+        finish();
+    }
+
     /* metoda onDateSet postavlja vrijednost textview14 na odabrani datum (logika preuzeta sa youtube tutorijala) */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

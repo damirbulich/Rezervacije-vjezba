@@ -139,14 +139,23 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     /* metoda pozvana klikom na gumb Pretraži pretraživa rezervacije po pinu */
     public void findRezervacija(View view){
-        int id = Integer.parseInt(pin.getText()+"");
+        int id;
+        try {
+            id = Integer.parseInt(pin.getText()+"");
+        } catch (NumberFormatException ex){
+            Toast.makeText(getApplicationContext(),
+                    "Ne postoji rezervacija pod tim pinom!",
+                    Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
         loadRezervacije();
         Rezervacija odabrana = getRezervacija(id, rezervacije);
         if (odabrana == null){
             pin.setText("");
             naziv.setText("");
-            datum.setText("");
-            vrijeme.setText("");
+            datum.setText("Odaberite datum");
+            vrijeme.setText("Odaberite vrijeme");
             br_osoba.setText("");
             ime.setText("");
             Toast.makeText(getApplicationContext(),
@@ -161,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             br_osoba.setText(odabrana.getBr_osoba()+"");
             ime.setText(odabrana.getIme()+"");
             Toast.makeText(getApplicationContext(),
-                    "Dohvaćena rezervacija: "+odabrana.getPin(),
+                    "Dohvaćena rezervacija "+odabrana.getPin(),
                     Toast.LENGTH_SHORT)
                     .show();
         }
@@ -179,7 +188,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     /* metoda za update rezervacija poziva se pritiskom na gumb "uredi" */
     public void updateRezervacija(View view){
-        int id = Integer.parseInt(pin.getText()+"");
+        int id;
+        try {
+            id = Integer.parseInt(pin.getText()+"");
+        } catch (NumberFormatException ex){
+            Toast.makeText(getApplicationContext(),
+                    "Ne postoji rezervacija pod tim pinom!",
+                    Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+
         boolean found = false;
         loadRezervacije();
         for (Rezervacija rez : rezervacije){
@@ -191,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 rez.setIme(ime.getText().toString());
                 found = true;
                 Toast.makeText(getApplicationContext(),
-                        "Izmjenjena rezervacija: "+rez.getPin(),
+                        "Izmjenjena rezervacija "+rez.getPin(),
                         Toast.LENGTH_SHORT)
                         .show();
             }
@@ -200,16 +219,35 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             saveRezervacije();
         else
             Toast.makeText(getApplicationContext(),
-                    "Nije nađena rezervacija: "+id,
+                    "Nije nađena rezervacija "+id,
                     Toast.LENGTH_SHORT)
                     .show();
     }
 
 
     public void deleteRezervacija(View view){
-        int id = Integer.parseInt(pin.getText()+"");
+        int id;
+        try {
+            id = Integer.parseInt(pin.getText()+"");
+        } catch (NumberFormatException ex){
+            Toast.makeText(getApplicationContext(),
+                    "Ne postoji rezervacija pod tim pinom!",
+                    Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
         loadRezervacije();
         rezervacije.remove(getRezervacija(id, rezervacije));
+        pin.setText("");
+        naziv.setText("");
+        datum.setText("Odaberite datum");
+        vrijeme.setText("Odaberite vrijeme");
+        br_osoba.setText("");
+        ime.setText("");
+        Toast.makeText(getApplicationContext(),
+                "Rezervacija "+id+" je izbrisana",
+                Toast.LENGTH_SHORT)
+                .show();
         saveRezervacije();
     }
 
