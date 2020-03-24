@@ -1,6 +1,5 @@
 package com.damir.rezervacije;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import android.app.DatePickerDialog;
@@ -14,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -135,6 +135,82 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         }
         return false;
+    }
+
+    /* metoda pozvana klikom na gumb Pretraži pretraživa rezervacije po pinu */
+    public void findRezervacija(View view){
+        int id = Integer.parseInt(pin.getText()+"");
+        loadRezervacije();
+        Rezervacija odabrana = getRezervacija(id, rezervacije);
+        if (odabrana == null){
+            pin.setText("");
+            naziv.setText("");
+            datum.setText("");
+            vrijeme.setText("");
+            br_osoba.setText("");
+            ime.setText("");
+            Toast.makeText(getApplicationContext(),
+                    "Ne postoji rezervacija pod tim pinom!",
+                    Toast.LENGTH_SHORT)
+                    .show();
+        } else {
+            pin.setText(odabrana.getPin()+"");
+            naziv.setText(odabrana.getRestoran()+"");
+            datum.setText(odabrana.getDatum()+"");
+            vrijeme.setText(odabrana.getVrijeme()+"");
+            br_osoba.setText(odabrana.getBr_osoba()+"");
+            ime.setText(odabrana.getIme()+"");
+            Toast.makeText(getApplicationContext(),
+                    "Dohvaćena rezervacija: "+odabrana.getPin(),
+                    Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    /* neefikasna metoda za traženje rezervacija */
+    public Rezervacija getRezervacija(int pin, List<Rezervacija> rezervacijas){
+        for (Rezervacija rez : rezervacijas){
+            if ( rez.getPin() == pin){
+                return rez;
+            }
+        }
+        return null;
+    }
+
+    /* metoda za update rezervacija poziva se pritiskom na gumb "uredi" */
+    public void updateRezervacija(View view){
+        int id = Integer.parseInt(pin.getText()+"");
+        boolean found = false;
+        loadRezervacije();
+        for (Rezervacija rez : rezervacije){
+            if ( rez.getPin() == id){
+                rez.setRestoran(naziv.getText().toString());
+                rez.setDatum(datum.getText().toString());
+                rez.setVrijeme(vrijeme.getText().toString());
+                rez.setBr_osoba(br_osoba.getText().toString());
+                rez.setIme(ime.getText().toString());
+                found = true;
+                Toast.makeText(getApplicationContext(),
+                        "Izmjenjena rezervacija: "+rez.getPin(),
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+        if(found)
+            saveRezervacije();
+        else
+            Toast.makeText(getApplicationContext(),
+                    "Nije nađena rezervacija: "+id,
+                    Toast.LENGTH_SHORT)
+                    .show();
+    }
+
+
+    public void deleteRezervacija(View view){
+        int id = Integer.parseInt(pin.getText()+"");
+        loadRezervacije();
+        rezervacije.remove(getRezervacija(id, rezervacije));
+        saveRezervacije();
     }
 
     /* metoda onDateSet postavlja vrijednost textview7 na odabrani datum (logika preuzeta sa youtube tutorijala) */
