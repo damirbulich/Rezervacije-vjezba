@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Rezervacije restorana</string>
     <string name="unos_name">Unos nove rezervacije</string>
+    <string name="pin">PIN</string>
 </resources>

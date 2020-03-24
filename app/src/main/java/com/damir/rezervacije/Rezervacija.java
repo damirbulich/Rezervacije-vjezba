@@ -11,27 +11,17 @@ public class Rezervacija {
 
     /* Konstruktor za kreiranje novih rezervacija */
     public Rezervacija(String restoran, String datum, String vrijeme, String br_osoba, String ime) {
-        setPin();
-        this.restoran = restoran;
-        this.datum = datum;
-        this.vrijeme = vrijeme;
-        this.br_osoba = br_osoba;
-        this.ime = ime;
+        setRestoran(restoran);
+        setDatum(datum);
+        setVrijeme(vrijeme);
+        setBr_osoba(br_osoba);
+        setIme(ime);
     }
 
-    /* Konstruktor za dohvat rezervacija iz JSON datoteke */
-    public Rezervacija(int pin, String restoran, String datum, String vrijeme, String br_osoba, String ime) {
-        this.pin = pin;
-        this.restoran = restoran;
-        this.datum = datum;
-        this.vrijeme = vrijeme;
-        this.br_osoba = br_osoba;
-        this.ime = ime;
-    }
 
     /*! Dodati provjeru postoji li vec */
     public void setPin() {
-        this.pin = (int)(Math.random()*9000-1000);
+        this.pin = (int)(Math.random()*9000+1000);
     }
 
     public void setRestoran(String restoran) {
